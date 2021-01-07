@@ -1,0 +1,6 @@
+
+
+<div *ngIf='notEmpty;else noProduct'>
+    <app-product  *ngFor='let product of products' [product]='product'></app-product>
+</div>
+<ng-template #noProduct ><p class="error text-red-600 text-center p-2">No products found!</p> </ng-template>
