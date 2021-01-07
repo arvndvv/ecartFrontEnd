@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import{HttpClient,HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { User } from '../models/User';
-let session=localStorage.getItem('x-access-token');
-let httpOptions={
-  headers:new HttpHeaders({
-    'Access-Control-Allow-Origin': '*'
-  })
-}
+let session = localStorage.getItem('x-access-token');
+let httpOptions = {
+  headers: new HttpHeaders({
+    'Access-Control-Allow-Origin': '*',
+    'skip-interceptor': 'true',
+  }),
+};
 // if(session.loggedIn){
 //    httpOptions={
 //     headers:new HttpHeaders({
@@ -18,19 +19,19 @@ let httpOptions={
 // }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-userUrl:string='http://localhost:4000/user'
-  constructor(private http:HttpClient) { }
+  userUrl: string = 'http://localhost:4000/user';
+  constructor(private http: HttpClient) {}
 
-  login(user:any):Observable<any>{
+  login(user: any): Observable<any> {
     // console.log(user);
-    
-return this.http.post<any>(`${this.userUrl}/login`,user,httpOptions);
+
+    return this.http.post<any>(`${this.userUrl}/login`, user, httpOptions);
   }
-  register(user:User):Observable<any>{
+  register(user: User): Observable<any> {
     // console.log(user);
-    return this.http.post<User>(`${this.userUrl}/register`,user,httpOptions);
+    return this.http.post<User>(`${this.userUrl}/register`, user, httpOptions);
   }
 }

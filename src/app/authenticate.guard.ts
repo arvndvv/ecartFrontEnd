@@ -16,7 +16,8 @@ if(!this.Authguardservice.gettoken()){
   this.router.navigateByUrl("/login");
   return false
 }
-return !!this.Authguardservice.gettoken();
+// return !!this.Authguardservice.gettoken();
+return true
   }
   
 }
