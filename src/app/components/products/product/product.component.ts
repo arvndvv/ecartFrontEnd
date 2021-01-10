@@ -1,3 +1,4 @@
+import { UserService } from 'src/app/services/user.service';
 import { logging } from 'protractor';
 import { Product } from './../../../models/Product';
 import { Component, Input, OnInit, Output ,EventEmitter} from '@angular/core';
@@ -13,8 +14,10 @@ error:string='';
   quantity:number=1;
   
 @Input() product:Product;
-@Output() addedItem:EventEmitter<object>=new EventEmitter();
-  constructor() { }
+@Output() addedItem:EventEmitter<any>=new EventEmitter();
+  constructor(private userService:UserService) { 
+    userService.verify()
+  }
  errorClass={'error':true,'errorShow':!!this.error}
 
   ngOnInit(): void {

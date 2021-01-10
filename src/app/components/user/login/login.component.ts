@@ -12,10 +12,14 @@ email:string;
 password:string;
 // num:number=20000.23342;
  
-  constructor(private userService:UserService,private router:Router) { }
+  constructor(private userService:UserService,private router:Router) { 
+    if(!userService.verify()){
+      this.router.navigateByUrl('/products')
+    }
+  }
 
   ngOnInit(): void {
-    
+   
   }
 onLogin(){
   const user={
@@ -29,6 +33,7 @@ onLogin(){
 // console.log(res);
 
         localStorage.setItem('x-access-token',res.token);
+        localStorage.setItem('userData',JSON.stringify(res.data))
         this.router.navigateByUrl('products')
       }
       else{

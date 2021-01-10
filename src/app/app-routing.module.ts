@@ -1,3 +1,4 @@
+import { CartComponent } from './components/cartContainer/cart/cart.component';
 import { AuthenticateGuard } from './authenticate.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -13,7 +14,8 @@ const routes: Routes = [
 {path:'products',component:ListComponent,canActivate:[AuthenticateGuard],
 children:[
   {path:'create-new',component:CreateNewComponent}
-]}
+]},
+{path:'cart',component:CartComponent,canActivate:[AuthenticateGuard]}
 ];
 
 @NgModule({

@@ -1,0 +1,10 @@
+*,*:active,*:focus{
+    outline: none;
+    
+    user-select: none;
+}
+.active{
+border-bottom: 2px solid rgba(110,231,183,1);
+    color: rgba(16,185,129,1);
+
+}

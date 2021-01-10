@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { ToastRef, ToastrService } from 'ngx-toastr';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 
@@ -11,7 +13,11 @@ export class RegisterComponent implements OnInit {
   email:string;
   password:string;
 
-  constructor(private userService:UserService) { }
+  constructor(private userService:UserService,private toastr:ToastrService,private router:Router) {
+    if(!userService.verify()){
+      this.router.navigateByUrl('/products')
+    }
+   }
 
   ngOnInit(): void {
   }
@@ -23,7 +29,12 @@ onReg(){
     role:'user'
   }
   this.userService.register(newUser).subscribe(data=>{
-    console.log(data)
+this.toastr.success('Account Created!','Success')
+setTimeout(()=>{
+  this.router.navigateByUrl('');
+},1000)
+  },err=>{
+this.toastr.error(err.data,'Error')
   })
 }
 }

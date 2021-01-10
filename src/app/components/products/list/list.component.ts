@@ -3,6 +3,7 @@ import { ProductsService } from './../../../services/products.service';
 import { Product } from './../../../models/Product';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-list',
@@ -12,7 +13,9 @@ import { ToastrService } from 'ngx-toastr';
 export class ListComponent implements OnInit {
 products:Product[];
  notEmpty:boolean;
-  constructor(private productService:ProductsService,private toastr: ToastrService) { }
+  constructor(private productService:ProductsService,private toastr: ToastrService,private userService:UserService) { 
+    userService.verify()
+  }
 
   ngOnInit(): void {
     this.productService.list().subscribe(products=>{
@@ -27,7 +30,7 @@ products:Product[];
       // console.log(this.notEmpty)
     })
   }
-  addToCart(newItem:object){
+  addToCart(newItem:any){
 // console.log(newItem)
 this.productService.add(newItem).subscribe(item=>{
   // console.log(item)
