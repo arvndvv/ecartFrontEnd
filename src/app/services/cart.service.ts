@@ -19,4 +19,11 @@ export class CartService {
   emptyCart(): Observable<any> {
     return this.http.delete(`${this.cartUrl}/empty-cart`);
   }
+  reduceItem(id: any): Observable<any> {
+    return this.http.delete(`${this.cartUrl}/subtract/${id}`);
+  }
+  add(update: object): Observable<any> {
+    // console.log(update);
+    return this.http.post<any>(`${this.cartUrl}`, update);
+  }
 }

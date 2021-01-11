@@ -25,7 +25,11 @@ let httpOptions = {
 })
 export class UserService {
   userUrl: string = 'http://localhost:4000/user';
-  constructor(private http: HttpClient,private router:Router,private toastr:ToastrService) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
 
   login(user: any): Observable<any> {
     // console.log(user);
@@ -36,26 +40,38 @@ export class UserService {
     // console.log(user);
     return this.http.post<User>(`${this.userUrl}/register`, user, httpOptions);
   }
-   verify():boolean{
+  async verify() {
+    let jwt,
+      ret,
+      url = 'http://localhost:4000/user/';
+    // console.log('aaa');
+    if ((jwt = localStorage.getItem('x-access-token'))) {
+      // console.log('jwt');
 
-     let jwt,url='http://localhost:4000/user/';
-    
-     if(jwt=localStorage.getItem('x-access-token')){
-      //  console.log(jwt)
-
-this.http.get(url).subscribe(res=>{
-    if(res){
-     return true
-    }
-  },err=>{
-    this.toastr.error(err.error.message,'Error')
-
-    localStorage.clear();
-
-    this.router.navigateByUrl('login')
-return false
-  })
-     }
-return
+      try {
+        const resp = await this.http.get(url).toPromise();
+        return true;
+      } catch (error) {
+        return false;
       }
+      // .subscribe(
+      //   async (res) => {
+      //     // console.log('aa');
+      //     if (res) {
+      //       // console.log('aa');
+      //       return true;
+      //     }
+      //   },
+      //   (err) => {
+      //     this.toastr.error(err.error.message, 'Error');
+      //     console.log('asa');
+      //     localStorage.clear();
+
+      //     this.router.navigateByUrl('login');
+      //     return false;
+      //   }
+      // );
+    }
+    return false;
+  }
 }

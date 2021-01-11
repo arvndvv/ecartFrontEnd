@@ -6,35 +6,47 @@ import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
- uname:string;
-  email:string;
-  password:string;
+  uname: string;
+  email: string;
+  password: string;
 
-  constructor(private userService:UserService,private toastr:ToastrService,private router:Router) {
-    if(!userService.verify()){
-      this.router.navigateByUrl('/products')
-    }
-   }
+  constructor(
+    private userService: UserService,
+    private toastr: ToastrService,
+    private router: Router
+  ) {
 
-  ngOnInit(): void {
+    userService
+    .verify()
+    .then((res) => {
+      if (res) {
+        this.router.navigateByUrl('/products');
+      }
+    })
+    .catch();
   }
-onReg(){
-  const newUser={
-    name:this.uname,
-    email:this.email,
-    password:this.password,
-    role:'user'
+
+  ngOnInit(): void {}
+  onReg() {
+    const newUser = {
+      name: this.uname,
+      email: this.email,
+      password: this.password,
+      role: 'user',
+    };
+    this.userService.register(newUser).subscribe(
+      (data) => {
+        this.toastr.success('Account Created!', 'Success');
+        setTimeout(() => {
+          this.router.navigateByUrl('');
+        }, 1000);
+      },
+      (err) => {
+        this.toastr.error(err.data, 'Error');
+      }
+    );
   }
-  this.userService.register(newUser).subscribe(data=>{
-this.toastr.success('Account Created!','Success')
-setTimeout(()=>{
-  this.router.navigateByUrl('');
-},1000)
-  },err=>{
-this.toastr.error(err.data,'Error')
-  })
-}
 }

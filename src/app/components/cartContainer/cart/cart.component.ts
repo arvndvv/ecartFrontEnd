@@ -39,7 +39,7 @@ export class CartComponent implements OnInit {
           this.disable = true;
           this.toastr.info('cart is empty', 'Info');
         }
-        console.log(cart);
+        // console.log(cart);
         this.cartData = cart.data;
         this.items = cart.data.items;
         // console.log(this.cartData)
@@ -75,6 +75,7 @@ export class CartComponent implements OnInit {
 
   removeItem(id): any {
     // console.log(id);
+    // console.log('remove item');
     this.cartService.removeItem(id).subscribe(
       (success) => {
         this.cartService.showCart().subscribe(
@@ -83,7 +84,7 @@ export class CartComponent implements OnInit {
               this.disable = true;
               this.toastr.info('cart is empty', 'Info');
             }
-            console.log(cart);
+            // console.log(cart);
             this.cartData = cart.data;
             this.items = cart.data.items;
             // console.log(this.cartData)
@@ -95,6 +96,28 @@ export class CartComponent implements OnInit {
         );
 
         this.toastr.success('Item Removed', 'Success');
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+
+  reduceItem(id): any {
+    // console.log('reduce');
+    this.cartService.reduceItem(id).subscribe(
+      (success) => {
+        this.cartInfoUpdate();
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+  increaseItem(update): any {
+    this.cartService.add(update).subscribe(
+      (success) => {
+        this.cartInfoUpdate();
       },
       (err) => {
         console.log(err);
